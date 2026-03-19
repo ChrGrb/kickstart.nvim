@@ -337,15 +337,17 @@ P.S. You can delete this when you're done too. It's your config now! :)
       'folke/which-key.nvim',
       event = 'VimEnter', -- Sets the loading event to 'VimEnter'
       config = function() -- This is the function that runs, AFTER loading
-        require('which-key').setup()
+        require('which-key').setup {
+          icons = { mappings = false }, -- disable icons to avoid requiring a Nerd Font
+        }
 
         -- Document existing key chains
-        require('which-key').register {
-          ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-          ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-          ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-          ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-          ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        require('which-key').add {
+          { '<leader>c', group = '[C]ode' },
+          { '<leader>d', group = '[D]ocument' },
+          { '<leader>r', group = '[R]ename' },
+          { '<leader>s', group = '[S]earch' },
+          { '<leader>w', group = '[W]orkspace' },
         }
       end,
     },
@@ -610,8 +612,8 @@ P.S. You can delete this when you're done too. It's your config now! :)
           -- Some languages (like typescript) have entire language plugins that can be useful:
           --    https://github.com/pmizio/typescript-tools.nvim
           --
-          -- But for many setups, the LSP (`tsserver`) will work just fine
-          tsserver = {},
+          -- But for many setups, the LSP (`ts_ls`) will work just fine
+          ts_ls = {},
           --
 
           lua_ls = {
@@ -850,6 +852,8 @@ P.S. You can delete this when you're done too. It's your config now! :)
 
     { -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
+      branch = 'master', -- v2 rewrite requires nvim 0.12 nightly; master branch is the stable legacy version
+      pin = true,        -- prevent lazy from auto-updating to the v2/main branch
       build = ':TSUpdate',
       config = function()
         -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
